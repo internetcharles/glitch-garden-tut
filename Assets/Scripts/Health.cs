@@ -6,6 +6,7 @@ public class Health : MonoBehaviour
 {
 
     [SerializeField] int health = 100;
+    [SerializeField] private GameObject deathVFX = default;
 
 
     public int GetHealth()
@@ -13,12 +14,26 @@ public class Health : MonoBehaviour
         return health;
     }
 
-    public void SubtractFromHealth(int damage)
+    public void DealDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
         {
+            TriggerDeathVFX();
             Destroy(gameObject);
+        }
+    }
+
+    public void TriggerDeathVFX()
+    {
+        if (!deathVFX)
+        {
+            return;
+        }
+        else
+        {
+            GameObject deathVFXObject = Instantiate(deathVFX, transform.position, Quaternion.identity);
+            Destroy(deathVFXObject, 1f);
         }
     }
 
